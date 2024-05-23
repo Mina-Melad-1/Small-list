@@ -13,8 +13,8 @@ private:
     node *head=nullptr;
 
 public:
-
-     void Addtask(string name)
+    map<string,int>mp;
+    void Addtask(string name)
     {
         node* newNode = new node;
         newNode->task = name;
@@ -23,15 +23,26 @@ public:
         if (head == nullptr)
         {
             head = newNode;
+            mp[name]++;
+            cout<<"Task "<<head->task<<" Added Successfully."<<endl;
         }
         else
         {
-            node* temp = head;
-            while (temp->next != nullptr)
+            if (mp[name])
             {
-                temp = temp->next;
+                cout << "Task " << name << " Already Exists." << endl;
             }
-            temp->next = newNode;
+            else
+            {
+                mp[name]++;
+                node *temp = head;
+                while (temp->next != nullptr)
+                {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+                cout << "Task " << head->task << " Added Successfully." << endl;
+            }
         }
     }
 
@@ -42,12 +53,13 @@ public:
             cout << "To Do List is empty." << endl;
         }
 
-       else if (head->task == name)
+        else if (head->task == name)
         {
             node* temp = head;
             head = head->next;
             delete temp;
-            cout << "Task \"" << name << "\" removed." << endl;
+            cout << "Task " << name << " removed." << endl;
+            mp[name]--;
         }
         else
         {
@@ -61,13 +73,14 @@ public:
                     node *de = temp->next;
                     temp->next = de->next;
                     delete de;
-                    cout << "Task \"" << name << "\" removed." << endl;
+                    cout << "Task " << name << " removed." << endl;
+                    mp[name]--;
                     break;
                 }
                 temp = temp->next;
             }
             if (!l)
-                cout << "Task \"" << name << "\" not found." << endl;
+                cout << "Task " << name << " not found." << endl;
         }
     }
 
@@ -87,17 +100,17 @@ public:
                 {
                     l=true;
                     temp->done = true;
-                    cout << "Task \"" << name << "\" marked done." << endl;
+                    cout << "Task " << name << " marked done." << endl;
 
                 }
                 temp = temp->next;
             }
             if(!l)
-            cout << "Task \"" << name << "\" not found." << endl;
+                cout << "Task " << name << " not found." << endl;
         }
     }
 
-        void Checktask(string name)
+    void Checktask(string name)
     {
         if (head == nullptr)
         {
@@ -114,18 +127,18 @@ public:
                     l=true;
                     if(temp->done)
                     {
-                    cout << "Task \"" << name << "\" Done." << endl;
+                        cout << "Task " << name << " Done." << endl;
                     }
                     else
                     {
-                    cout << "Task \"" << name << "\" Not Done." << endl;
+                        cout << "Task " << name << " Not Done." << endl;
                     }
 
                 }
                 temp = temp->next;
             }
             if(!l)
-            cout << "Task \"" << name << "\" not found." << endl;
+                cout << "Task " << name << " not found." << endl;
         }
     }
 
